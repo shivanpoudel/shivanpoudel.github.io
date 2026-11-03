@@ -81,8 +81,8 @@ figcaption{font-family:var(--mono); font-size:.72rem; color:var(--muted)}
     <section class="view" id="v-home">
       <p class="lede">Engineering student working toward semiconductors, fundamental physics, and AI.</p>
       <figure>
-        <canvas id="plot" width="1120" height="600" aria-label="Sketch of a carbon K-edge absorption spectrum with a sharp peak near 285 eV and a broad peak near 292 eV"></canvas>
-        <figcaption>Carbon K-edge XANES, sketched. π* near 285 eV, σ* near 292 eV.</figcaption>
+        <canvas id="plot" width="1120" height="600" aria-label="Feynman diagram of a quark and antiquark annihilating into a virtual W boson, which radiates a Higgs boson that decays through a loop into two photons"></canvas>
+        <figcaption>WH production with H → γγ. My analysis work was on the diphoton decay.</figcaption>
       </figure>
     </section>
 
@@ -90,8 +90,8 @@ figcaption{font-family:var(--mono); font-size:.72rem; color:var(--muted)}
       <h2>About</h2>
       <div class="stack">
         <p>I'm Shivan, a first-year electrical engineering student at Rose-Hulman with a minor in physics. I want to work where devices meet the physics underneath them: semiconductors, fundamental physics, and AI as a tool for both.</p>
-        <p>I've done particle physics analysis with the ATLAS Higgs group at CERN and now study carbon nanotubes with X-ray spectroscopy in a lab at Rose-Hulman.</p>
-        <p>Outside of class I play video games, go hiking, read manga now and then, and am working my way through the Bhagavad Gita.</p>
+        <p>I've done particle physics analysis with the ATLAS Higgs group at CERN, and I now work on X-ray spectroscopy of carbon materials at Rose-Hulman.</p>
+        <p>Outside of class: volleyball, hiking, video games, and the occasional manga.</p>
       </div>
       <div>
         <h3>This quarter</h3>
@@ -103,9 +103,9 @@ figcaption{font-family:var(--mono); font-size:.72rem; color:var(--muted)}
       <h2>Research</h2>
       <ul class="entries">
         <li class="entry">
-          <div class="head"><span class="title">Carbon nanotube XANES</span><span class="when">Oct 2026 – now</span></div>
+          <div class="head"><span class="title">XANES of carbon materials</span><span class="when">Oct 2026 – now</span></div>
           <p class="org">Rose-Hulman Institute of Technology</p>
-          <p class="desc">Studying the electronic structure of carbon nanotube samples with carbon K-edge X-ray absorption near-edge spectroscopy. Comparing spectra across experimental conditions to find beam shifts and inconsistencies between runs.</p>
+          <p class="desc">Studying the electronic structure of carbon nanotube and graphite samples with carbon K-edge X-ray absorption near-edge spectroscopy. Comparing spectra across experimental conditions to find beam shifts and inconsistencies between runs.</p>
           <p class="tags">python · matplotlib · spectroscopy</p>
         </li>
         <li class="entry">
@@ -126,6 +126,11 @@ figcaption{font-family:var(--mono); font-size:.72rem; color:var(--muted)}
     <section class="view" id="v-projects" hidden>
       <h2>Projects</h2>
       <ul class="entries">
+        <li class="entry">
+          <div class="head"><span class="title">MathGate</span></div>
+          <p class="desc">A screen-time gate for Instagram. After an hour of use, opening Instagram redirects to a timed mental-math set in the style of Zetamac. Finishing the set unlocks the app for another hour. Built on iOS Shortcuts automations to work without the Apple Developer Program.</p>
+          <p class="tags">ios · shortcuts</p>
+        </li>
         <li class="entry">
           <div class="head"><span class="title">Car image classifier</span></div>
           <p class="desc">Fine-tuned ResNet-18 in PyTorch to identify car make and model from photos, reaching about 97% accuracy. Trained on an NVIDIA GPU.</p>
@@ -164,34 +169,31 @@ figcaption{font-family:var(--mono); font-size:.72rem; color:var(--muted)}
   function draw(){
     var c=document.getElementById("plot"); if(!c) return;
     var x=c.getContext("2d"), cs=getComputedStyle(document.documentElement);
-    var ink=cs.getPropertyValue("--ink").trim(), mute=cs.getPropertyValue("--muted").trim(), rule=cs.getPropertyValue("--rule").trim();
-    var W=c.width,H=c.height,L=90,R=30,T=30,B=80, E0=280,E1=310;
-    function g(e,m,s){return Math.exp(-Math.pow(e-m,2)/(2*s*s))}
-    function mu(e){ // edge step + pi* + sigma* resonances
-      var step=0.5+Math.atan((e-290)/1.2)/Math.PI;
-      return 0.08+0.55*step+1.0*g(e,285.4,0.45)+0.45*g(e,292.5,1.6)+0.18*g(e,298,3);
-    }
-    var ymax=1.25;
-    function px(e){return L+(e-E0)/(E1-E0)*(W-L-R)} function py(v){return H-B-v/ymax*(H-T-B)}
-    x.clearRect(0,0,W,H);
-    x.strokeStyle=rule; x.lineWidth=2; x.beginPath(); x.moveTo(L,T); x.lineTo(L,H-B); x.lineTo(W-R,H-B); x.stroke();
-    x.fillStyle=mute; x.font="22px 'Fragment Mono', monospace"; x.textAlign="center";
-    [280,285,290,295,300,305,310].forEach(function(e){ x.fillText(e,px(e),H-B+34); x.beginPath(); x.moveTo(px(e),H-B); x.lineTo(px(e),H-B+8); x.stroke(); });
-    x.fillText("photon energy [eV]",(L+W-R)/2,H-12);
-    x.save(); x.translate(32,(T+H-B)/2); x.rotate(-Math.PI/2); x.fillText("absorption [arb.]",0,0); x.restore();
-    x.strokeStyle=ink; x.lineWidth=3; x.beginPath();
-    for(var e=E0;e<=E1;e+=.05){ var X=px(e),Y=py(mu(e)); e===E0?x.moveTo(X,Y):x.lineTo(X,Y); } x.stroke();
-    x.fillStyle=ink; x.textAlign="left";
-    x.fillText("π*",px(285.4)+14,py(mu(285.4))+8);
-    x.fillText("σ*",px(292.5)+10,py(mu(292.5))-14);
+    var ink=cs.getPropertyValue("--ink").trim(), mute=cs.getPropertyValue("--muted").trim();
+    x.clearRect(0,0,c.width,c.height); x.lineCap="round"; x.lineJoin="round";
+    x.strokeStyle=ink; x.fillStyle=ink; x.lineWidth=3;
+    function wavy(x0,y0,x1,y1){
+      var dx=x1-x0,dy=y1-y0,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,nx=-uy,ny=ux,n=Math.max(1,Math.round(len/30));
+      x.beginPath();
+      for(var i=0;i<=400;i++){ var t=i/400,w=12*Math.sin(t*n*2*Math.PI); var px=x0+ux*t*len+nx*w,py=y0+uy*t*len+ny*w; i?x.lineTo(px,py):x.moveTo(px,py); }
+      x.stroke(); }
+    function line(p,q,dash){ x.setLineDash(dash||[]); x.beginPath(); x.moveTo(p[0],p[1]); x.lineTo(q[0],q[1]); x.stroke(); x.setLineDash([]); }
+    function arrow(p,q){ // arrowhead at midpoint pointing p -> q
+      var mx=(p[0]+q[0])/2,my=(p[1]+q[1])/2,a=Math.atan2(q[1]-p[1],q[0]-p[0]),s=18;
+      x.beginPath(); x.moveTo(mx+s*Math.cos(a),my+s*Math.sin(a));
+      x.lineTo(mx+s*Math.cos(a+2.5),my+s*Math.sin(a+2.5)); x.lineTo(mx+s*Math.cos(a-2.5),my+s*Math.sin(a-2.5)); x.closePath(); x.fill(); }
+    var Q=[60,100],Qb=[60,480],V1=[260,290],V2=[480,290],V3=[660,390],A=[780,320],B=[780,460];
+    line(Q,V1); arrow(Q,V1); line(Qb,V1); arrow(V1,Qb);
+    wavy(V1[0],V1[1],V2[0],V2[1]); wavy(V2[0],V2[1],760,100);
+    line(V2,V3,[18,14]);
+    line(V3,A); line(V3,B); line(A,B);
+    wavy(A[0],A[1],1050,240); wavy(B[0],B[1],1050,540);
+    [V1,V2,V3,A,B].forEach(function(p){ x.beginPath(); x.arc(p[0],p[1],5,0,7); x.fill(); });
+    x.fillStyle=mute; x.font="italic 34px 'Newsreader', Georgia, serif"; x.textAlign="center";
+    x.fillText("q",72,165); x.fillText("q̄",72,440);
+    x.fillText("W*",370,255); x.fillText("W",665,140); x.fillText("H",548,375);
+    x.fillText("γ",1070,230); x.fillText("γ",1070,585);
   }
-  function go(h){
-    try{ history.replaceState(null,"","#"+h); }catch(e){}
-    current=h; show();
-  }
-  document.querySelectorAll("nav a").forEach(function(a){
-    a.addEventListener("click",function(ev){ ev.preventDefault(); go(a.getAttribute("href").slice(1)); });
-  });
   window.addEventListener("hashchange",function(){ current=null; show(); });
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(draw);
   try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",draw); }catch(e){}
