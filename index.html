@@ -225,5 +225,69 @@ figcaption{font-family:var(--mono); font-size:.72rem; color:var(--muted)}
 })();
 </script>
 
+<!--INTRO-->
+<style>
+.intro{position:fixed; inset:0; z-index:50; background:var(--paper); display:grid; place-items:center; cursor:pointer; transition:opacity .5s ease}
+.intro.out{opacity:0; pointer-events:none}
+.intro canvas{position:absolute; inset:0; width:100%; height:100%; max-width:none; aspect-ratio:auto}
+.intro .cue{position:relative; font-family:var(--mono); font-size:.9rem; color:var(--ink); letter-spacing:.06em; background:none; border:0; cursor:pointer; padding:12px 16px; transition:opacity .25s}
+.intro .cue:focus-visible{outline:2px solid var(--link); outline-offset:4px}
+.intro.go .cue{opacity:0}
+@media (prefers-reduced-motion:no-preference){ .intro .cue{animation:breathe 2.6s ease-in-out infinite} }
+@keyframes breathe{0%,100%{opacity:.35; transform:scale(.97)} 50%{opacity:1; transform:scale(1)}}
+</style>
+<div class="intro" id="intro">
+  <canvas id="intro-canvas" aria-hidden="true"></canvas>
+  <button class="cue" id="cue" type="button">&gt; click here &lt;</button>
+</div>
+<script>
+(function(){
+  var el=document.getElementById("intro"), cv=document.getElementById("intro-canvas"), x=cv.getContext("2d"), started=false;
+  var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function finish(){ el.classList.add("out"); setTimeout(function(){ el.remove(); },550); }
+  function start(){
+    if(started) return; started=true; el.classList.add("go");
+    if(reduce){ finish(); return; }
+    var dpr=Math.min(window.devicePixelRatio||1,2), W=innerWidth, H=innerHeight;
+    cv.width=W*dpr; cv.height=H*dpr; x.setTransform(dpr,0,0,dpr,0,0);
+    var cs=getComputedStyle(document.documentElement), ink=cs.getPropertyValue("--ink").trim(), mute=cs.getPropertyValue("--muted").trim();
+    var cx=W/2, cy=H/2, R=Math.hypot(W,H)/2;
+    // fixed pseudo-random tracks, curling like charged tracks in a solenoid
+    var seed=11; function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647; }
+    var tracks=[]; for(var i=0;i<22;i++){ var neutral=i<2;
+      tracks.push({a:(neutral? (i? Math.PI*0.18 : Math.PI*1.18) : rnd()*Math.PI*2), k:neutral?0:(rnd()-.5)*0.012, L:R*(0.35+rnd()*0.55), neutral:neutral}); }
+    var T0=performance.now(), tHit=650, tEnd=1500;
+    function ease(t){ return t*t*t; }
+    function frame(now){
+      var t=now-T0; x.clearRect(0,0,W,H);
+      if(t<tHit){
+        var u=ease(t/tHit), d=(W/2+20)*(1-u);
+        for(var s=-1;s<=1;s+=2){ // beam with a short trail
+          var bx=cx+s*d; x.strokeStyle=mute; x.lineWidth=1; x.beginPath(); x.moveTo(bx,cy); x.lineTo(bx+s*Math.min(80,d*.5),cy); x.stroke();
+          x.fillStyle=ink; x.beginPath(); x.arc(bx,cy,4,0,7); x.fill(); }
+      } else {
+        var v=Math.min(1,(t-tHit)/(tEnd-tHit)), grow=1-Math.pow(1-v,3), fade=v<.6?1:1-(v-.6)/.4;
+        // flash ring
+        x.strokeStyle=ink; x.globalAlpha=Math.max(0,1-v*2.2); x.lineWidth=1.5; x.beginPath(); x.arc(cx,cy,6+v*90,0,7); x.stroke();
+        x.globalAlpha=fade;
+        tracks.forEach(function(tr){
+          var len=tr.L*grow, steps=Math.max(2,Math.round(len/6)), px=cx, py=cy, ang=tr.a;
+          x.strokeStyle=tr.neutral?mute:ink; x.lineWidth=tr.neutral?1.4:1.2; x.setLineDash(tr.neutral?[7,6]:[]);
+          x.beginPath(); x.moveTo(px,py);
+          for(var j=0;j<steps;j++){ ang+=tr.k*6; px+=Math.cos(ang)*len/steps; py+=Math.sin(ang)*len/steps; x.lineTo(px,py); }
+          x.stroke(); x.setLineDash([]);
+        });
+        x.globalAlpha=1;
+        if(t>tEnd-450 && !el.classList.contains("out")) finish();
+      }
+      if(t<tEnd+100) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  el.addEventListener("click",start);
+  document.getElementById("cue").focus({preventScroll:true});
+})();
+</script>
+<!--/INTRO-->
 </body>
 </html>
