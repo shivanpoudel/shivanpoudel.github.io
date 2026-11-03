@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shivan Poudel</title>
+<meta name="description" content="Shivan Poudel: electrical engineering and physics at Rose-Hulman.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Fragment+Mono&display=swap">
+<style>
+/* Layout: name + nav in a left column, one view at a time on the right, on paper */
+:root{
+  --paper:#f3f0e8; --ink:#22211d; --muted:#6f6b60; --rule:#d8d2c3; --link:#2d4a6b;
+  --serif:"Newsreader","Iowan Old Style",Georgia,serif;
+  --mono:"Fragment Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1c1b18; --ink:#e7e2d6; --muted:#9a9485; --rule:#35332d; --link:#9db8d6; color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#1c1b18; --ink:#e7e2d6; --muted:#9a9485; --rule:#35332d; --link:#9db8d6; color-scheme:dark}
+
+body{background:var(--paper); color:var(--ink); font-family:var(--serif); font-size:18px; line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1000px; margin:0 auto; padding-block:12vh 96px; display:grid; grid-template-columns:200px minmax(0,1fr); gap:72px; align-items:start}
+.side{position:sticky; top:calc(env(safe-area-inset-top,0px) + 48px)}
+.side h1{font-weight:500; font-size:1.9rem; line-height:1.15; margin:0}
+.side .sub{font-family:var(--mono); font-size:.72rem; color:var(--muted); margin:6px 0 26px; line-height:1.5}
+nav{display:grid; gap:4px}
+nav a{color:var(--ink); text-decoration:none; font-size:1.1rem; width:fit-content}
+nav a:hover{text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px}
+nav a[aria-current="page"]{color:var(--link)}
+a{color:var(--link); text-underline-offset:3px; text-decoration-thickness:1px}
+a:focus-visible{outline:2px solid var(--link); outline-offset:2px}
+
+.view{max-width:620px; display:grid; gap:28px}
+.view[hidden]{display:none!important}
+h2{font-weight:500; font-size:1.5rem; margin:0; line-height:1.2}
+h3{font-family:var(--mono); font-weight:400; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 10px}
+p{margin:0}
+.stack{display:grid; gap:14px}
+ul.entries{list-style:none; margin:0; padding:0; display:grid; gap:26px}
+.entry .head{display:flex; flex-wrap:wrap; justify-content:space-between; gap:4px 16px; align-items:baseline}
+.entry .title{font-weight:500}
+.entry .when{font-family:var(--mono); font-size:.75rem; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap}
+.entry .org{font-style:italic; color:var(--muted)}
+.entry .desc{margin-top:6px; font-size:.97rem}
+.tags{font-family:var(--mono); font-size:.72rem; color:var(--muted); margin-top:6px}
+
+.lede{font-size:1.25rem; line-height:1.5}
+.contact p{font-family:var(--mono); font-size:.85rem}
+.foot{font-family:var(--mono); font-size:.7rem; color:var(--muted); border-top:1px solid var(--rule); padding-top:14px; margin-top:12px}
+
+@media (max-width:720px){
+  .wrap{grid-template-columns:1fr; gap:36px; padding-block:40px 64px}
+  .side{position:static}
+  nav{display:flex; flex-wrap:wrap; gap:4px 18px}
+  nav a{font-size:1rem}
+}
+@media (prefers-reduced-motion:no-preference){ .view{animation:in .25s ease-out} @keyframes in{from{opacity:.4}to{opacity:1}} }
+*{box-sizing:border-box} body{margin:0}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <aside class="side">
+    <h1>Shivan Poudel</h1>
+    <p class="sub">Electrical Engineering &amp; Physics<br>Rose-Hulman</p>
+    <nav aria-label="Sections">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section class="view" id="v-home">
+      <p class="lede">Engineering student working toward semiconductors, fundamental physics, and AI.</p>
+      <div>
+        <h3>Now</h3>
+        <div class="stack">
+          <p>Studying carbon nanotubes with X-ray absorption spectroscopy at Rose-Hulman.</p>
+          <p>First year of electrical engineering, minor in physics.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="v-about" hidden>
+      <h2>About</h2>
+      <div class="stack">
+        <p>I'm Shivan, a first-year electrical engineering student at Rose-Hulman with a minor in physics. I want to work where devices meet the physics underneath them: semiconductors, fundamental physics, and AI as a tool for both.</p>
+        <p>I've done particle physics analysis with the ATLAS Higgs group at CERN and now study carbon nanotubes with X-ray spectroscopy in a lab at Rose-Hulman.</p>
+        <p>Outside of class I play video games, go hiking, read manga now and then, and am working my way through the Bhagavad Gita.</p>
+      </div>
+      <div>
+        <h3>This quarter</h3>
+        <p>Physics II · Calculus III · Intro to Software Development</p>
+      </div>
+    </section>
+
+    <section class="view" id="v-research" hidden>
+      <h2>Research</h2>
+      <ul class="entries">
+        <li class="entry">
+          <div class="head"><span class="title">Carbon nanotube XANES</span><span class="when">Oct 2026 – now</span></div>
+          <p class="org">Rose-Hulman Institute of Technology</p>
+          <p class="desc">Studying the electronic structure of carbon nanotube samples with carbon K-edge X-ray absorption near-edge spectroscopy. Comparing spectra across experimental conditions to find beam shifts and inconsistencies between runs.</p>
+          <p class="tags">python · matplotlib · spectroscopy</p>
+        </li>
+        <li class="entry">
+          <div class="head"><span class="title">Higgs to diphoton analysis</span><span class="when">Dec 2024 – Feb 2026</span></div>
+          <p class="org">CERN, ATLAS Higgs Group</p>
+          <p class="desc">Processed and analyzed about 1,000 real and simulated LHC collision events in the H → γγ decay channel.</p>
+          <p class="tags">python · root</p>
+        </li>
+        <li class="entry">
+          <div class="head"><span class="title">Noether's theorem</span><span class="when">May – Oct 2025</span></div>
+          <p class="org">Independent paper</p>
+          <p class="desc">Derived conservation of momentum, energy, and charge from continuous symmetries, using Lagrangian mechanics, tensor calculus, and scalar field theory.</p>
+          <p class="tags">theoretical physics · latex</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="view" id="v-projects" hidden>
+      <h2>Projects</h2>
+      <ul class="entries">
+        <li class="entry">
+          <div class="head"><span class="title">Car image classifier</span></div>
+          <p class="desc">Fine-tuned ResNet-18 in PyTorch to identify car make and model from photos, reaching about 97% accuracy. Trained on an NVIDIA GPU.</p>
+          <p class="tags">pytorch · computer vision</p>
+        </li>
+        <li class="entry">
+          <div class="head"><span class="title">Menu bar translator</span></div>
+          <p class="desc">A macOS menu bar app that translates selected text with a global hotkey and detects the source language automatically. Still adding languages.</p>
+          <p class="tags">python · macos</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="view contact" id="v-contact" hidden>
+      <h2>Contact</h2>
+      <div class="stack">
+        <p>shivanpoudel08 [at] gmail [dot] com</p>
+        <p><a href="https://github.com/shivanpoudel">GitHub</a> · <a href="https://www.linkedin.com/in/shivan-poudel-b0505428a/">LinkedIn</a></p>
+      </div>
+      <p class="foot">Terre Haute, Indiana</p>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  var views=["home","about","research","projects","contact"], current=null;
+  function show(){
+    var h=current||(location.hash||"#home").slice(1); if(views.indexOf(h)<0) h="home";
+    views.forEach(function(v){ document.getElementById("v-"+v).hidden=(v!==h); });
+    document.querySelectorAll("nav a").forEach(function(a){
+      if(a.getAttribute("href")==="#"+h) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+    });
+  }
+  function go(h){
+    try{ history.replaceState(null,"","#"+h); }catch(e){}
+    current=h; show();
+  }
+  document.querySelectorAll("nav a").forEach(function(a){
+    a.addEventListener("click",function(ev){ ev.preventDefault(); go(a.getAttribute("href").slice(1)); });
+  });
+  window.addEventListener("hashchange",function(){ current=null; show(); });
+  show();
+})();
+</script>
+</body>
+</html>
